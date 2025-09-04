@@ -1,0 +1,29 @@
+{
+    "name": "vas2nets/b2b-sdk",
+    "type": "library",
+    "description": "A Laravel SDK for interacting with an API using Basic Authentication",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shokunbi Abdulfatah",
+            "email": "shokunbiaa@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "VAS2Nets\\B2bSDK\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.3",
+        "mockery/mockery": "^1.6"
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.10"
+    }
+}
