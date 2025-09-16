@@ -94,6 +94,7 @@ class B2bSDK
     // Developer-friendly methods.
     public function getProfileDetails(?string $username = null, ?string $password = null): array
     {
+        return [];
         try {
             $response = $this->request('GET', "meta/getDetails", [], $username, $password);
             return [

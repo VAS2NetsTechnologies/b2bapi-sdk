@@ -19,7 +19,7 @@ class B2bSDKTest extends TestCase
         // $handler = HandlerStack::create($mock);
         // $client = new Client(['handler' => $handler]);
 
-        $sdk = new B2bSDK('dev');
+        $sdk = new B2bSDK('https://b2bapi.v2napi.com/dev/');
         // $sdk->setClient($client); // Inject mock client for testing
         //pass the type for daily data plan
 
