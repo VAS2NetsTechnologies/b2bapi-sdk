@@ -14,11 +14,11 @@ class B2bSDK
 
     public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
-
+        $baseUrl = "https://b2bapi.v2napi.com/";
         if ($queryString === 'dev') {
-            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+            $baseUrl .= "$queryString/";
         } else if ($queryString === 'v1') {
-            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+            $baseUrl .= "$queryString/";
         } else {
             throw new B2bSDKException('Invalid query string');
         }
