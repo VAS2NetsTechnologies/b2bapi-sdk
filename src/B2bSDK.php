@@ -13,7 +13,7 @@ class B2bSDK
     protected $defaultPassword;
     protected $temporaryCredentials = null;
 
-    public function __construct(string $baseUrl, ?string $defaultUsername = null, ?string $defaultPassword = null)
+    public function __construct(?string $baseUrl=null, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
         $this->baseUrl = rtrim($baseUrl, '/');
         $this->defaultUsername = $defaultUsername;
@@ -127,7 +127,7 @@ class B2bSDK
         }
     }
 
-    
+
     //getMyBillers Services
       public function getMyBillers(?string $username = null, ?string $password = null, ?string $category= null, ?string $billerId =null, ?string $isBouquetService=null): array
     {
