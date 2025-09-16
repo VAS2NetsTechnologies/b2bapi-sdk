@@ -13,7 +13,7 @@ class B2bSDK
     protected $defaultPassword;
     protected $temporaryCredentials = null;
 
-    public function __construct(?string $baseUrl=null, ?string $defaultUsername = null, ?string $defaultPassword = null)
+    public function __construct(?string $baseUrl= null, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
         $this->baseUrl = rtrim($baseUrl, '/');
         $this->defaultUsername = $defaultUsername;
