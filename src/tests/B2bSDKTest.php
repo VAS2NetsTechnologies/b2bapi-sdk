@@ -30,7 +30,7 @@ class B2bSDKTest extends TestCase
         //      'bouquetCode' => 'EPINMTN100'
         // );
 
-        $response = $sdk->getMyBillers('benardTest', 'BENARD@1990');
+        $response = $sdk->getProfileDetails('benardTest', 'BENARD@1990');
         $this->assertEquals(200, $response['status']);
         // $this->assertEquals('John Doe', $response['data']['name']);
     }

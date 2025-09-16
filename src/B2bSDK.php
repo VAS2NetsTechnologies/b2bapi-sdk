@@ -13,16 +13,16 @@ class B2bSDK
     protected $defaultPassword;
     protected $temporaryCredentials = null;
 
-    public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
+    public function __construct(string $baseUrl, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
 
-        if ($queryString === 'dev') {
-            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
-        } else if ($queryString === 'vi') {
-            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
-        } else {
-            throw new \Exception('Invalid query string');
-        }
+        // if ($queryString === 'dev') {
+        //     $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+        // } else if ($queryString === 'vi') {
+        //     $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+        // } else {
+        //     throw new B2bSDKException('Invalid query string');
+        // }
         $this->baseUrl = $baseUrl;
         $this->defaultUsername = $defaultUsername;
         $this->defaultPassword = $defaultPassword;
