@@ -1,4 +1,5 @@
 <?php
+
 namespace VAS2Nets\B2bSDK;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;

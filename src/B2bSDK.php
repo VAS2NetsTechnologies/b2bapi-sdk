@@ -13,9 +13,17 @@ class B2bSDK
     protected $defaultPassword;
     protected $temporaryCredentials = null;
 
-    public function __construct(?string $baseUrl= null, ?string $defaultUsername = null, ?string $defaultPassword = null)
+    public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
-        $this->baseUrl = rtrim($baseUrl, '/');
+
+        if ($queryString === 'dev') {
+            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+        } else if ($queryString === 'vi') {
+            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+        } else {
+            throw new \Exception('Invalid query string');
+        }
+        $this->baseUrl = $baseUrl;
         $this->defaultUsername = $defaultUsername;
         $this->defaultPassword = $defaultPassword;
         $this->client = new Client([
@@ -112,11 +120,11 @@ class B2bSDK
         }
     }
 
-     public function getAllAvailableBillers(?string $username = null, ?string $password = null, ?string $category= null): array
+    public function getAllAvailableBillers(?string $username = null, ?string $password = null, ?string $category = null): array
     {
-        $categoryParam = $category !==null ? "?category=$category" : "";
+        $categoryParam = $category !== null ? "?category=$category" : "";
         try {
-            $response = $this->request('GET', "meta/getAllBillers".$categoryParam, [], $username, $password);
+            $response = $this->request('GET', "meta/getAllBillers" . $categoryParam, [], $username, $password);
             return [
                 'status' => $response['status'],
                 'data' => $response['data'],
@@ -129,13 +137,13 @@ class B2bSDK
 
 
     //getMyBillers Services
-      public function getMyBillers(?string $username = null, ?string $password = null, ?string $category= null, ?string $billerId =null, ?string $isBouquetService=null): array
+    public function getMyBillers(?string $username = null, ?string $password = null, ?string $category = null, ?string $billerId = null, ?string $isBouquetService = null): array
     {
-         $categoryParam = $category !==null ? "?category=$category" : "";
-         $billerIdParam = $billerId !==null ? "&billerId=$billerId" : "";
-         $isBouquetServiceParam = $isBouquetService !==null ? "&isBouquetService=$isBouquetService" : "";
+        $categoryParam = $category !== null ? "?category=$category" : "";
+        $billerIdParam = $billerId !== null ? "&billerId=$billerId" : "";
+        $isBouquetServiceParam = $isBouquetService !== null ? "&isBouquetService=$isBouquetService" : "";
         try {
-            $response = $this->request('GET', "meta/getMyBillers".$categoryParam.$billerIdParam.$isBouquetServiceParam, [], $username, $password);
+            $response = $this->request('GET', "meta/getMyBillers" . $categoryParam . $billerIdParam . $isBouquetServiceParam, [], $username, $password);
             return [
                 'status' => $response['status'],
                 'data' => $response['data'],
@@ -147,9 +155,9 @@ class B2bSDK
     }
 
     //get bouquet service
-      public function getBouquetService(?string $username = null, ?string $password = null, ?string $category= null, ?string $billerId =null, ?string $type=null): array
+    public function getBouquetService(?string $username = null, ?string $password = null, ?string $category = null, ?string $billerId = null, ?string $type = null): array
     {
-         $typeParam = $type !==null ? "?type=$type" : "";
+        $typeParam = $type !== null ? "?type=$type" : "";
         //  $billerIdParam = $billerId !==null ? "&billerId=$billerId" : "";
         try {
             $response = $this->request('GET', "bouquet/$category/$billerId.$typeParam", [], $username, $password);
@@ -164,10 +172,10 @@ class B2bSDK
     }
 
 
-    public function runUserValidation(array $postData, ?string $username = null, ?string $password = null, ?string $category =null): array
+    public function runUserValidation(array $postData, ?string $username = null, ?string $password = null, ?string $category = null): array
     {
-         try {
-            $response = $this->request('POST', $category."/validate", $postData, $username, $password);
+        try {
+            $response = $this->request('POST', $category . "/validate", $postData, $username, $password);
             return [
                 'status' => $response['status'],
                 'data' => $response['data'],
@@ -179,10 +187,10 @@ class B2bSDK
     }
 
 
-     public function makePayment(array $postData, ?string $username = null, ?string $password = null, ?string $category =null): array
+    public function makePayment(array $postData, ?string $username = null, ?string $password = null, ?string $category = null): array
     {
-         try {
-            $response = $this->request('POST', $category."/payment", $postData, $username, $password);
+        try {
+            $response = $this->request('POST', $category . "/payment", $postData, $username, $password);
             return [
                 'status' => $response['status'],
                 'data' => $response['data'],
@@ -192,5 +200,4 @@ class B2bSDK
             throw new B2bSDKException("Failed to fetch : " . $e->getMessage(), $e->getCode());
         }
     }
-
 }
