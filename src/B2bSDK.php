@@ -13,16 +13,15 @@ class B2bSDK
     protected $defaultPassword;
     protected $temporaryCredentials = null;
 
-    public function __construct(string $baseUrl, ?string $defaultUsername = null, ?string $defaultPassword = null)
+    public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
-
-        // if ($queryString === 'dev') {
-        //     $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
-        // } else if ($queryString === 'vi') {
-        //     $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
-        // } else {
-        //     throw new B2bSDKException('Invalid query string');
-        // }
+        if ($queryString === 'dev') {
+            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+        } else if ($queryString === 'v1') {
+            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+        } else {
+            throw new B2bSDKException('Invalid query string');
+        }
         $this->baseUrl = $baseUrl;
         $this->defaultUsername = $defaultUsername;
         $this->defaultPassword = $defaultPassword;
@@ -80,7 +79,6 @@ class B2bSDK
             if ($this->temporaryCredentials !== null && $username === null) {
                 $this->clearCredentials();
             }
-
             return $result;
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $error = $e->hasResponse() ? json_decode($e->getResponse()->getBody(), true) : ['message' => $e->getMessage()];
@@ -92,9 +90,8 @@ class B2bSDK
     }
 
     // Developer-friendly methods.
-    public function getProfileDetails(?string $username = null, ?string $password = null): array
+    public function getProfileDetails(string $username, string $password): array
     {
-        return [];
         try {
             $response = $this->request('GET', "meta/getDetails", [], $username, $password);
             return [
@@ -107,7 +104,7 @@ class B2bSDK
         }
     }
 
-    public function getBillerCategories(?string $username = null, ?string $password = null): array
+    public function getBillerCategories(string $username, string $password): array
     {
         try {
             $response = $this->request('GET', "meta/getBillerCategories", [], $username, $password);
@@ -121,7 +118,7 @@ class B2bSDK
         }
     }
 
-    public function getAllAvailableBillers(?string $username = null, ?string $password = null, ?string $category = null): array
+    public function getAllAvailableBillers(string $username, string $password, ?string $category = null): array
     {
         $categoryParam = $category !== null ? "?category=$category" : "";
         try {
@@ -138,7 +135,7 @@ class B2bSDK
 
 
     //getMyBillers Services
-    public function getMyBillers(?string $username = null, ?string $password = null, ?string $category = null, ?string $billerId = null, ?string $isBouquetService = null): array
+    public function getMyBillers(string $username, string $password, ?string $category = null, ?string $billerId = null, ?string $isBouquetService = null): array
     {
         $categoryParam = $category !== null ? "?category=$category" : "";
         $billerIdParam = $billerId !== null ? "&billerId=$billerId" : "";
@@ -156,7 +153,7 @@ class B2bSDK
     }
 
     //get bouquet service
-    public function getBouquetService(?string $username = null, ?string $password = null, ?string $category = null, ?string $billerId = null, ?string $type = null): array
+    public function getBouquetService(string $username, string $password, ?string $category = null, ?string $billerId = null, ?string $type = null): array
     {
         $typeParam = $type !== null ? "?type=$type" : "";
         //  $billerIdParam = $billerId !==null ? "&billerId=$billerId" : "";
@@ -173,7 +170,7 @@ class B2bSDK
     }
 
 
-    public function runUserValidation(array $postData, ?string $username = null, ?string $password = null, ?string $category = null): array
+    public function runUserValidation(array $postData, string $username, string $password, ?string $category = null): array
     {
         try {
             $response = $this->request('POST', $category . "/validate", $postData, $username, $password);
@@ -188,7 +185,7 @@ class B2bSDK
     }
 
 
-    public function makePayment(array $postData, ?string $username = null, ?string $password = null, ?string $category = null): array
+    public function makePayment(array $postData, string $username, string $password, ?string $category = null): array
     {
         try {
             $response = $this->request('POST', $category . "/payment", $postData, $username, $password);
