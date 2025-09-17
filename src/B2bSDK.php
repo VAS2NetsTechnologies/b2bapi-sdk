@@ -18,7 +18,6 @@ class B2bSDK
 
         //new updates
         if ($queryString === 'dev') {
-            //new updates
             $this->Url = "https://b2bapi.v2napi.com/$queryString/";
         } else if ($queryString === 'v1') {
              $this->Url = "https://b2bapi.v2napi.com/$queryString/";
