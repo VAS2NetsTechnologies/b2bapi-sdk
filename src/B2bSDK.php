@@ -16,8 +16,8 @@ class B2bSDK
     public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
 
-        //new updates
         if ($queryString === 'dev') {
+            //new updates
             $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
         } else if ($queryString === 'v1') {
             $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
