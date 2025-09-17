@@ -1,32 +1,33 @@
 <?php
 
 namespace VAS2Nets\B2bSDK;
+
 use GuzzleHttp\Client;
 use VAS2Nets\B2bSDK\Exceptions\B2bSDKException;
 
 class B2bSDK
 {
     protected $client;
-    protected $baseUrl;
+    protected $Url;
     protected $defaultUsername;
     protected $defaultPassword;
     protected $temporaryCredentials = null;
 
     public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
-        $baseUrl = "https://b2bapi.v2napi.com/";
         if ($queryString === 'dev') {
-            $baseUrl .= "$queryString/";
+            $this->Url = "https://b2bapi.v2napi.com/$queryString/";
         } else if ($queryString === 'v1') {
-            $baseUrl .= "$queryString/";
+            $this->Url = "https://b2bapi.v2napi.com/$queryString/";
         } else {
             throw new B2bSDKException('Invalid query string');
         }
-        $this->baseUrl = $baseUrl;
+
+        // $this->Url = $baseUrl;
         $this->defaultUsername = $defaultUsername;
         $this->defaultPassword = $defaultPassword;
         $this->client = new Client([
-            'base_uri' => $this->baseUrl,
+            'base_uri' => $this->Url,
             'headers' => [
                 'Accept' => 'application/json',
             ],
