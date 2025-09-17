@@ -1,5 +1,5 @@
 {
-    "name": "vas2nets/b2b-sdk",
+    "name": "vas2nets/b2bapi-sdk",
     "type": "library",
     "description": "A Laravel SDK for interacting with an API using Basic Authentication",
     "license": "MIT",
