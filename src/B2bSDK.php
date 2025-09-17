@@ -8,7 +8,7 @@ use VAS2Nets\B2bSDK\Exceptions\B2bSDKException;
 class B2bSDK
 {
     protected $client;
-    protected $baseUrl;
+    protected $Url;
     protected $defaultUsername;
     protected $defaultPassword;
     protected $temporaryCredentials = null;
@@ -16,19 +16,20 @@ class B2bSDK
     public function __construct(string $queryString, ?string $defaultUsername = null, ?string $defaultPassword = null)
     {
 
+        //new updates
         if ($queryString === 'dev') {
             //new updates
-            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+            $this->Url = "https://b2bapi.v2napi.com/$queryString/";
         } else if ($queryString === 'v1') {
-            $baseUrl = "https://b2bapi.v2napi.com/$queryString/";
+             $this->Url = "https://b2bapi.v2napi.com/$queryString/";
         } else {
             throw new B2bSDKException('Invalid query string');
         }
-        $this->baseUrl = $baseUrl;
+        // $this->baseUrl = $baseUrl;
         $this->defaultUsername = $defaultUsername;
         $this->defaultPassword = $defaultPassword;
         $this->client = new Client([
-            'base_uri' => $this->baseUrl,
+            'base_uri' =>  $this->Url,
             'headers' => [
                 'Accept' => 'application/json',
             ],
