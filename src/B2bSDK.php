@@ -106,15 +106,16 @@ class B2bSDK
         }
     }
 
-    public function getBillerCategories(string $username, string $password): array
+    public function getBillerCategories(string $username, string $password)
     {
         try {
             $response = $this->request('GET', "meta/getBillerCategories", [], $username, $password);
-            return [
-                'status' => $response['status'],
-                'data' => $response['data'],
-                'meta' => $response['data']['meta'] ?? []
-            ];
+            echo $response;
+            // return [
+            //     'status' => $response['status'],
+            //     'data' => $response['data'],
+            //     'meta' => $response['data']['meta'] ?? []
+            // ];
         } catch (B2bSDKException $e) {
             throw new B2bSDKException("Failed to fetch : " . $e->getMessage(), $e->getCode());
         }
