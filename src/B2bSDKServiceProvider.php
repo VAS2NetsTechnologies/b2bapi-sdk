@@ -10,11 +10,7 @@ class B2bSDKServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/Resources/config.php', 'B2bSDK');
         $this->app->singleton(B2bSDK::class, function ($app) {
-            return new B2bSDK(
-                config('B2bSDK.username'),
-                config('B2bSDK.password'),
-                config('B2bSDK.base_url')
-            );
+            return new B2bSDK('dev');
         });
     }
 
