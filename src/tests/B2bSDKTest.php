@@ -21,7 +21,7 @@ class B2bSDKTest extends TestCase
 
 
         // $response = $sdk->getProfileDetails('benardTest','benardTest', 'BENARD@1990');
-        $sdk = new B2bSDK('dev','benardTest','BENARD');
+        $sdk = new B2bSDK('dev','benardTest','BENARD@1990');
         // $sdk->setClient($client); // Inject mock client for testing
         //pass the type for daily data plan
 
@@ -32,7 +32,7 @@ class B2bSDKTest extends TestCase
         //      'bouquetCode' => 'EPINMTN100'
         // );
 
-        $response = $sdk->getProfileDetails('benardTest', 'BENARD@1990');
+        $response = $sdk->getProfileDetails();
         $this->assertEquals(200, $response['status']);
         // $this->assertEquals('John Doe', $response['data']['name']);
     }

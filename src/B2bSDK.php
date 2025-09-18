@@ -100,7 +100,7 @@ class B2bSDK
         }
     }
 
-    public function getAllAvailableBillers(?string $username = null, ?string $password = null, ?string $category = null): array
+    public function getAllAvailableBillers(?string $category = null,?string $username = null, ?string $password = null): array
     {
         $categoryParam = $category !== null ? "?category=$category" : "";
         try {
@@ -117,7 +117,7 @@ class B2bSDK
 
 
     //getMyBillers Services
-    public function getMyBillers(?string $username = null, ?string $password = null, ?string $category = null, ?string $billerId = null, ?string $isBouquetService = null): array
+    public function getMyBillers(?string $category = null, ?string $billerId = null, ?string $isBouquetService = null,?string $username = null, ?string $password = null): array
     {
         $categoryParam = $category !== null ? "?category=$category" : "";
         $billerIdParam = $billerId !== null ? "&billerId=$billerId" : "";
@@ -135,7 +135,7 @@ class B2bSDK
     }
 
     //get bouquet service
-    public function getBouquetService(?string $username = null, ?string $password = null, ?string $category = null, ?string $billerId = null, ?string $type = null): array
+    public function getBouquetService(?string $category = null, ?string $billerId = null, ?string $type = null, ?string $username = null, ?string $password = null): array
     {
         $typeParam = $type !== null ? "?type=$type" : "";
         //  $billerIdParam = $billerId !==null ? "&billerId=$billerId" : "";
@@ -152,7 +152,7 @@ class B2bSDK
     }
 
 
-    public function runUserValidation(array $postData, ?string $username = null, ?string $password = null, ?string $category = null): array
+    public function runUserValidation(array $postData, ?string $category = null, ?string $username = null, ?string $password = null): array
     {
         try {
             $response = $this->request('POST', $category . "/validate", $postData, $username, $password);
@@ -166,7 +166,7 @@ class B2bSDK
         }
     }
 
-    public function makePayment(array $postData, ?string $username = null, ?string $password = null, ?string $category = null): array
+    public function makePayment(array $postData, ?string $category = null, ?string $username = null, ?string $password = null): array
     {
         try {
             $response = $this->request('POST', $category . "/payment", $postData, $username, $password);
