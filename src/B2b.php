@@ -12,7 +12,7 @@ class B2b
     protected $username;
     protected $password;
 
-    protected function __construct(bool $production=false, string $username, string $password)
+    private function __construct(bool $production, string $username, string $password)
     {
         //new updates
         if ($production) {
@@ -32,7 +32,7 @@ class B2b
         ]);
     }
 
-    public static function client(bool $production, $username, $password): self
+    public static function client(bool $production= false, $username, $password): self
     {
         return new self($production, $username, $password);
     }
@@ -129,42 +129,6 @@ class B2b
             throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
         }
     }
-
-    // public function getAllAvailableBillers(?string $category = null, ?string $status = null, ?string $isBouquetService = null): array
-    // {
-    //     $categoryParam = $category !== null ? "?category=$category" : "";
-    //     $status = $category !== null ? "?&status=$status" : "";
-    //     $isBouquetServiceParam = $isBouquetService !== null ? "&isBouquetService=$isBouquetService" : "";
-    //     try {
-    //         $response = $this->request('GET', "meta/getAllBillers" . $categoryParam . $isBouquetServiceParam . $status, []);
-    //         return [
-    //             'status' => $response['status'],
-    //             'data' => $response['data'],
-    //             'meta' => $response['data']['meta'] ?? []
-    //         ];
-    //     } catch (B2bSDKException $e) {
-    //         throw new B2bSDKException("Failed to fetch : " . $e->getMessage(), $e->getCode());
-    //     }
-    // }
-
-
-    // //getMyBillers Services
-    // public function getMyBillers(?string $category = null, ?string $billerId = null, ?string $isBouquetService = null): array
-    // {
-    //     $categoryParam = $category !== null ? "?category=$category" : "";
-    //     $billerIdParam = $billerId !== null ? "&billerId=$billerId" : "";
-    //     $isBouquetServiceParam = $isBouquetService !== null ? "&isBouquetService=$isBouquetService" : "";
-    //     try {
-    //         $response = $this->request('GET', "meta/getMyBillers" . $categoryParam . $billerIdParam . $isBouquetServiceParam, []);
-    //         return [
-    //             'status' => $response['status'],
-    //             'data' => $response['data'],
-    //             'meta' => $response['data']['meta'] ?? []
-    //         ];
-    //     } catch (B2bSDKException $e) {
-    //         throw new B2bSDKException("Failed to fetch : " . $e->getMessage(), $e->getCode());
-    //     }
-    // }
 
     //get bouquet service
     public function bouquetService(?string $category = null, ?string $billerId = null, ?string $type = null): array
