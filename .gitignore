@@ -25,3 +25,5 @@ Thumbs.db
 /src/Facades
 /src/B2bSDKServiceProvider
 /src/tests
+tests
+phpunit.xml

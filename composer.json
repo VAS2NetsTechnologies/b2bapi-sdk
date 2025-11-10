@@ -1,5 +1,5 @@
 {
-    "name": "vas2nets/b2bapi-sdk",
+    "name": "vas2nets/b2bapi",
     "type": "library",
     "description": "A Laravel SDK for interacting with an API using Basic Authentication",
     "license": "MIT",
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "VAS2Nets\\B2bSDK\\" : "src/"
+            "VAS2Nets\\B2b\\" : "src/"
         }
     },
     "autoload-dev": {
