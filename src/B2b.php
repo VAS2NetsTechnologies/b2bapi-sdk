@@ -32,7 +32,7 @@ class B2b
         ]);
     }
 
-    public static function client($username, $password, $production): self
+    public static function client($username, $password, $production=false): self
     {
         return new self($$username, $password, $production);
     }
