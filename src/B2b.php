@@ -8,33 +8,33 @@ use VAS2Nets\B2b\Exceptions\B2bException;
 class B2b
 {
     protected $client;
-    protected $Url;
+    protected $url;
     protected $username;
     protected $password;
 
-    private function __construct(bool $production, string $username, string $password)
+    private function __construct(string $username, string $password, bool $production = false)
     {
         //new updates
         if ($production) {
-            $this->Url = "https://b2bapi.v2napi.com/V1/";
+            $this->url = "https://b2bapi.v2napi.com/v1/";
         } else {
-            $this->Url = "https://b2bapi.v2napi.com/dev/";
+            $this->url = "https://b2bapi.v2napi.com/dev/";
         }
         // $this->baseUrl = $baseUrl;
         $this->username = $username;
         $this->password = $password;
 
         $this->client = new Client([
-            'base_uri' =>  $this->Url,
+            'base_uri' =>  $this->url,
             'headers' => [
                 'Accept' => 'application/json'
             ],
         ]);
     }
 
-    public static function client(bool $production= false, $username, $password): self
+    public static function client($username, $password, $production): self
     {
-        return new self($production, $username, $password);
+        return new self($$username, $password, $production);
     }
 
     // Generic method to make API requests
@@ -104,20 +104,20 @@ class B2b
         }
     }
 
-    public function billers(bool $all = false, ?string $category = null, ?string $status = null, ?string $isBouquetService = null, ?string $billerId = null): array
+    public function billers(?string $category = null, ?string $billerId = null, bool $all = false, ?string $status = null, ?string $isBouquetService = null): array
     {
 
         $categoryParam = $category !== null ? "?category=$category" : "";
-        $isBouquetServiceParam = $isBouquetService !== null ? "&isBouquetService=$isBouquetService" : "";
         $urlEndPoint = '';
 
         try {
             if ($all) {
+                $isBouquetServiceParam = $isBouquetService !== null ? "&isBouquetService=$isBouquetService" : "";
                 $status = $category !== null ? "?&status=$status" : "";
                 $urlEndPoint = "meta/getAllBillers" . $categoryParam . $isBouquetServiceParam . $status;
             } else {
                 $billerIdParam = $billerId !== null ? "&billerId=$billerId" : "";
-                $urlEndPoint = "meta/getMyBillers" . $categoryParam . $billerIdParam . $isBouquetServiceParam;
+                $urlEndPoint = "meta/getMyBillers" . $categoryParam . $billerIdParam;
             }
             $response = $this->request('GET', $urlEndPoint, []);
             return [
@@ -131,12 +131,12 @@ class B2b
     }
 
     //get bouquet service
-    public function bouquetService(?string $category = null, ?string $billerId = null, ?string $type = null): array
+    public function bouquetService(string $category, string $billerId): array
     {
-        $typeParam = $type !== null ? "?type=$type" : "";
+        // $typeParam = $type !== null ? "?type=$type" : "";
         //  $billerIdParam = $billerId !==null ? "&billerId=$billerId" : "";
         try {
-            $response = $this->request('GET', "bouquet/$category/$billerId.$typeParam", []);
+            $response = $this->request('GET', "bouquet/$category/$billerId", []);
             return [
                 'status' => $response['status'],
                 'data' => $response['data'],
@@ -148,7 +148,7 @@ class B2b
     }
 
 
-    public function validation(?string $category = null, array $postData): array
+    public function validation(string $category, array $postData): array
     {
         try {
             $response = $this->request('POST', $category . "/validate", $postData);
