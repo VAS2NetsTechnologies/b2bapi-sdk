@@ -26,11 +26,11 @@ you can call categories() and billers() methods to know  categories and billers 
 1. Installation
 
 
-1.1. install [composer](https://getcomposer.org/) first before you run the following 
+1.1. install [composer](https://getcomposer.org/) first before you run the following in your IDE or Terminal project root
 
-     ```php
-     composer require vas2nets/b2bapi
-     ```
+	```php
+	composer require vas2nets/b2bapi
+	```
 
 
 2. Getting Started
