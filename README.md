@@ -1,4 +1,5 @@
 # VAS2Nets B2B Web Services
+- This sdk is available for PHP Appliocation with a version not less than 7.0 version. 
 
 
 **Description**
@@ -20,196 +21,239 @@ when you call the categories method, you will see all categories available on b2
 you can call categories() and billers() methods to know  categories and billers which has been profiled for your account respectively. if you pass true as a third argument to billers method, you will get all billers available on b2b  platform 
 
 
+Please note that the  validate() call to one of the biller services must be successfull before calling pay method(), 
+otherwise it will not make pay() method call to be successfull.
 
 
 
-1. Installation
+1. # Requirement
+   
+- You have to be profiled on vas2nets b2b platform and your test api username and password will be sent to you.
+- Your Environmental IP to which you are accessing the sdk must be whitelisted in the backoffice portal. this portal login credentials would be share with you after profiling you on     the playform.
+- There is a sandbox credentials to use throughout the integration, however, you must credit your wallet to have access to the live web services on the platform.
 
+
+
+
+
+2. # Installation
 
 1.1. install [composer](https://getcomposer.org/) first before you run the following in your IDE or Terminal project root
 
-	```php
+```bash
 	composer require vas2nets/b2bapi
-	```
+```
 
 
-2. Getting Started
+3. # Getting Started
 
+```php
        use VAS2Nets\B2b\B2b;
 
        use VAS2Nets\B2b\Exceptions\B2bException;
+```
    
 
-use B2bException exception for error handling, you can get any kind of error coming from the APIs.
+follow the following  B2b and B2bException Classes Example usage.
 
 
+
+```php
     $b2b = B2b::client($username,$password,true);
 
+```
 
-Please do not pass anything as the third argument if you are in sandbox environment.
+The client() method is called statistically and  do not pass anything as the third argument if you are in sandbox environment. Like this 
+
+```php
+    $b2b = B2b::client($username,$password);
+```
+
+You can use the B2bException like the follwoing
+
+```php
+
+ try {
+		$validation_respinse = $b2b->validation('vtu', array('customerId' => '08027618122', 'requestId' => 129394873));
+		print_r($validation_respinse);
+
+ } catch (B2bException $e) {
+            echo $e->getMessage();
+   }
+
+```
 
 
 
 
-2.1 Get User Profile
 
 
+
+3.1  **Get User Profile**
+   ```php
     $b2b->profile();
+   ```
 
-2.2 Get User Service categories
+3.2  **Get User Service categories**
 
-
+```php
     $b2b->categories();
+```
 
-2.3 Get User Service categories
+3.3  **Get User Service categories**
 
-
+```php
     $b2b->categories();
+```
 
-
-2.4 Get All Available Billers in VAS2Nets b2b platform. 
+3.4 **Get All Available Billers in VAS2Nets b2b platform.** 
 
 Fourt argumnent can be either Active, Inactive or Disabled to get status of all billers 
-fifth argument is Yes or No , this indicatw whether you want to get bouguet service or non bouquet service.
-
-	$b2b->billers(
+fifth argument is Yes or No , this indicate whether you want to get bouquet service or non bouquet service.
+```php
+$b2b->billers
+(
 	" ",
 	" ",
-	{true}
+	true
 	'Active|Inactive|Disabled',
 	'Yes|No',
-	);
+);
+
+```
 
 
-2.5 Get User Profiled Billers in b2b platform
-
-	$b2b->billers(
-	{category_id},
-	{billerId},
-	);
-
-
-2.6 Get User Bouquet Service
-
-	$b2b->bouquetService(
+3.5 **Get User Profiled Billers in b2b platform**
+```php
+$b2b->billers
+(
 	category_id,
-	billerId
-	);
+	billerId,
+);
+```
+
+3.6 Get User Bouquet Service
+```php
+$b2b->bouquetService
+(
+category_id,
+billerId
+);
+```
 
 
 
-Validation and Payment method are the same for all b2b web services, what differ is the payload data 
-argument passing to the methods which is type of an array
+4. **Validation and Payment method are the same for all b2b web services, what differ is the payload data  argument passing to the methods which is type of an array**
 
-= Generic Validation and make payment methods Formats.
+4.1 **Generic Validation and make payment methods Formats.**
 
+```php
 	$b2b->validation(
 	{category_id},
 	payload(values...)
 	);
-
-
+```
+```php
 	$b2b->pay(
 	{category_id},
 	payload(values..)
 	);
+```
 
 
 
-- Sample Payload Data to Validate Airtime and Data
+- **Sample Payload Data to Validate Airtime and Data**
 
-		array(
-		customerId => '2348132586075', 
-		requestId => '4292')
+```php
+$payload = [
+            customerId => '2348132586075', 
+            requestId => '4292'
+];
+```
 
-- The customerid is the user phone number and  could be in any format like 2348027839144 or 08027839144.
-- This request is is generated from third party platform.
-
-
-
-
-
+- The customerid is the user phone number and could be in any format like 2348027839144 or 08027839144.
+- This request  is generated from third party platform.
 
 
 
-- Sample Payload Data to make Payment for Airtime and Data
+- **Sample Payload Data to make Payment for Airtime**
+```php
+  $payload = [
+		customerId => '08132586075',
+		requestId =>'4923392', 
+		'billerId'=> 'MTN-AIRTIME',
+		'amount' => 100,
+         ];
+```
+- **Sample Payload to Make payment for Data and any bouquet service like DSTV, GOTV, etc**
 
-Please note that the above validate() call to one of the biller services must be successfull before calling pay method(), 
-otherwise it will not make pay() method call to be successfull.
+```php
+  $payload = [
+		customerId => '08132586075',
+		requestId =>'4923392', 
+		'billerId'=> 'MTN-AIRTIME',
+		'amount' => 100,
+		'bouquetCode' => 'MTN100MB1Day100'
+         ];
+```
 
-Bouquest service 
-
-	array(
-	customerId = '2348027839144',
-	requestId ='192939491', 
-	'billerId'=> 'MTN-DATA',
-	'amount' = '100',
-	'bouquetCode'=> 'MTN100MB1Day100')
-
-Non Bouquet service
-
-	array(
-	customerId = '2348027839144',
-	requestId ='192939491', 
-	'billerId'=> 'MTN-DATA',
-	'amount' = '100')
 
 Please note that  bouquetCode is included when a payment is only to make to bouquet service like DSTV, DATA etc.
 
 
 
-- Sample  Payload Data to Validate Disco meter or account number 
-
-
-Please note that customerId could be meter number or account number 
-
-
-	array(
-	customerId = '12345678910',
-	requestId ='39293995425', 
-	'billerId'=> 'AEDCA')
-	);
+- **Sample  Payload Data to Validate Disco meter or account number, please note that customerId could be meter number or account number**
+```php
+$payload = [
+			customerId = '12345678910',
+			requestId ='39293995425', 
+			'billerId'=> 'AEDCA')
+	       ]
+```
 
 
 
 
-- Sample Payload to Make Payment for Disco Service
-
-		array(
-		customerId = '12345678910',
-		requestId ='492949392', 
-		'billerId'=> 'IBEDCA',
-		'amount' = 1500,
-		'customerName'=>'CLIFFORD NWIGWE',
-		'customerAddress'=>'NYSC AREA 5 Und St. Garki 80')
-
-
-
-
-
-- Sample Payload to validate tv smartcard number or UIC Number
-
-  Please note that customerId could be Smart Card number or UIC Number 
-
-		array(
-		customerId = '7030935900',
-		requestId ='48294929492', 
-		'billerId'=> 'DSTV');
+- **Sample Payload to Make Payment for Disco Service**
+```php
+	$payload = [
+					customerId = '12345678910',
+					requestId ='492949392', 
+					'billerId'=> 'IBEDCA',
+					'amount' = 1500,
+					'customerName'=>'CLIFFORD NWIGWE',
+					'customerAddress'=>'NYSC AREA 5 Und St. Garki 80'
+                ];
+```
 
 
 
-- Sample Payload to make payment  for tv category
 
-		array(
-		customerId = '7030935900',
-		requestId ='59385823582', 
-		'billerId'=> 'DSTV',
-		'amount' = 10450,
-		'customerName'=>'Sten Mockett',
-		'bouquetCode' => 'DSTVCNFM',
-		'customerNumber' =>'71048760',
-		'addonCode' => 'FRN11E36');
 
+- **Sample Payload to validate tv smartcard number or UIC Number, please note that customerId could be Smart Card number or UIC Number**
+```php
+		$payload = [
+					customerId = '7030935900',
+					requestId ='48294929492', 
+					'billerId'=> 'DSTV'
+                    ];
+```
+
+
+
+- **Sample Payload to make payment  for tv category**
+```php
+		$payload = [
+					customerId = '7030935900',
+					requestId ='59385823582', 
+					'billerId'=> 'DSTV',
+					'amount' = 10450,
+					'customerName'=>'Sten Mockett',
+					'bouquetCode' => 'DSTVCNFM',
+					'customerNumber' =>'71048760',
+					'addonCode' => 'FRN11E36'
+                    ];
+```
 
 Please note that customer can choose to select addon for a particular package and vice-versa, addonCode is the code to addon that customer wants.
 And bouquet is only available on DSTV/GOTV.
@@ -225,68 +269,77 @@ any time, and startimes will charge the customer a daily tariff depending on the
 
 
 
-- Sample Payload data for ShowMax Voucher Purchase
+- **Sample Payload data for ShowMax Voucher Purchase**
+```php
+	$payload  =	[
+				customerId = '08132586075',
+				requestId ='49394958245', 
+				'billerId'=> 'SHOWMAX',
+				'amount' = 11880,
+				'bouquetCode' => 'SHOWMAXPRO3MONTH'
+           ];
+```
 
-		array(
-		customerId = '08132586075',
-		requestId ='49394958245', 
-		'billerId'=> 'SHOWMAX',
-		'amount' = 11880,
-		'bouquetCode' => 'SHOWMAXPRO3MONTH');
 
 
-
-- Sample Payload to Validate betting
-
-		array(
+- **Sample Payload to Validate betting**
+  ```php
+		$payload = [
 		customerId = '34382',
 		requestId ='4994924203', 
-		'billerId'=> 'BT9J');
+		'billerId'=> 'BT9J'
+       ];
+  ```
 
 
-- Sample Payload to make payment for betting category
-
-		array(
+- **Sample Payload to make payment for betting category**
+```php
+	$payload =[
 		customerId = '34382',
 		requestId ='49394924544', 
 		'billerId'=> 'BT9J',
 		'amount' = 1000,
-		'customerName'=>'Test Account 2');
+		'customerName'=>'Test Account 2'
+      ];
+```
 
-
-- Sample Payload to Validate customer id for internet category
-
-		array(
+- **Sample Payload to Validate customer id for internet category**
+```php
+	$payload  =	[
 		customerId = '1402000567',
 		requestId ='5939395923', 
-		'billerId'=> 'SMILE');
+		'billerId'=> 'SMILE'
+      ];
+```
 
 
-- Sample Payload to make payment for internet category
-
-		array(
+- **Sample Payload to make payment for internet category**
+```php
+		$payload = [
 		customerId = '1402000567',
 		requestId ='385929522', 
 		'billerId'=> 'SMILE',
 		'amount' = 1200,
 		'customerName'=>'Olumide Pablo'),
 		'bouquetCode'=>'SMILE2GB30Days'),
-		'customerAddress'=>'isolo');
+		'customerAddress'=>'isolo'
+         ];
+```
 
 
-- Sample Payload to Validate customer account number for payment service.
-
-		array(
+- **Sample Payload to Validate customer account number for payment service.**
+```php
+		$payload  = [
 		customerId = '3057071087',
 		requestId ='32932', 
 		'billerId'=> 'FTOUTWARD')
-		'bankCode'=> '000016');
+		'bankCode'=> '000016'
+        ];
+```
 
-
-
-- Sample Payload to make payment in banking service
-
-		array(
+- **Sample Payload to make payment in banking service**
+```php
+		$payload = [
 		customerId = '3057071087',
 		requestId ='5939949593', 
 		'billerId'=> 'FTOUTWARD',
@@ -297,37 +350,42 @@ any time, and startimes will charge the customer a daily tariff depending on the
 		'beneficiaryReference'=>'22000000089',
 		'sessionId'=>'110015231101103400123486131462',
 		'kycLevel'=>'3',
-		'narration'=>'New B2B test');
+		'narration'=>'New B2B test'
+        ];
+```
 
 
-- Sample Payload to make payment in Education Category
-
-		array(
+- **Sample Payload to make payment in Education Category**
+```php
+		$payload  = [
 		'requestId' =>'49392', 
 		'billerId'=> 'WAEC',
 		'amount' => 2900,
-		'bouquetCode'=> 'WAECPIN');
+		'bouquetCode'=> 'WAECPIN'
+         ];
+```
 
 
 
 
-
-- Sample Payload to make payment in banking service
-
-		array(
+- **Sample Payload to make payment in banking service**
+```php
+		$payload =[
 		requestId =>'3949219', 
 		'billerId'=> 'MTN-VOUCHER',
 		'amount' => 100,
-		'bouquetCode'=> 'EPINMTN100');
+		'bouquetCode'=> 'EPINMTN100'
+         ];
+```
 
 
 
-
-- Requery payload for pending transactions.
-
+5. **Requery payload for pending transactions.**
+```php
 		$b2b->requery([
 		'requestId' => '299492939955'
 		]);
+```
 
 Please note that the requestId is a transaction request id that previously in pending status after a pay method is called.It advisable to 
 called this method every 10 minutes to ascertain the final statis which could either be Success or Failed.
