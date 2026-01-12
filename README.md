@@ -4,7 +4,7 @@
 
 **Description**
 
-This is software developlent kit(SDK)  which user/client can consume via composer and have access to VAS2Nets b2b web services. Please note that categories(),billers() and bouquetService() methods needs to be called to know services that has been profiled for client/user's account as well as services that are bouquet oriented. i.e biller services that comes with their fixed amount and has thier own bouquet code respectively. Please note that this bouquet code will require during when you are
+This is software development kit(SDK)  which user/client can consume via composer and have access to VAS2Nets b2b web services. Please note that categories(),billers() and bouquetService() methods needs to be called to know services that has been profiled for client/user's account as well as services that are bouquet oriented. i.e biller services that comes with their fixed amount and has thier own bouquet code respectively. Please note that this bouquet code will require during when you are
 calling pay() method for this particular service purchase. 
 
 Also note that the status in response payload comes wit three value which could either be Failed, Success or Pending. when a status value is pending, there is a method named requery()
