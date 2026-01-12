@@ -69,7 +69,7 @@ The client() method is called statistically and  do not pass anything as the thi
     $b2b = B2b::client($username,$password);
 ```
 
-You can use the B2bException like the follwoing
+You can use the B2bException like the following
 
 ```php
 
