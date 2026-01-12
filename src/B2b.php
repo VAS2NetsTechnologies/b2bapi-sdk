@@ -34,7 +34,7 @@ class B2b
 
     public static function client($username, $password, $production=false): self
     {
-        return new self($$username, $password, $production);
+        return new self($username, $password, $production);
     }
 
     // Generic method to make API requests
