@@ -86,7 +86,7 @@ class B2b
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ class B2b
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 
@@ -126,7 +126,7 @@ class B2b
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 
@@ -143,7 +143,7 @@ class B2b
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ class B2b
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 
@@ -172,21 +172,22 @@ class B2b
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 
     public function requery($postData): array
     {
         try {
-            $response = $this->request('GET', "/requery", $postData);
+            $requestId = $postData['requestId'];
+            $response = $this->request('GET', "/requery?requestId=".$requestId);
             return [
                 'status' => $response['status'],
                 'data' => $response['data'],
                 'meta' => $response['data']['meta'] ?? []
             ];
         } catch (B2bException $e) {
-            throw new B2bException("Failed to fetch : " . $e->getMessage(), $e->getCode());
+            throw new B2bException("Failed to fetch : " . $e->getMessage());
         }
     }
 }
